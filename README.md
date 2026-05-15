@@ -32,25 +32,25 @@
 
 - Before inserting the USB sound card, we use the `lsusb` command to check the USB devices:
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI1NWFiNGRhZTRkZmIwZjVkZmI5YzNiOTQwZTJlNmNfTVd0RE5xMm95T296ZUhxQTZHVXFsR3N4YWRCaDg3a0NfVG9rZW46SVpYdGJGdTIxb0FBZEt4cHJ3R2NRZ00zbnhjXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/8d75a3264bf049e88810af54b82dcc0a.png)
 
 - Then plug in the USB sound card, and use `lsusb`  to check. You can see that the extra one is the USB sound card: 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MDI4MDQ2ZWIzYTFjYzNiOTNhOWQ2MDcwYjc1NDE1YmVfN2kySEhLMlVKc1g5SDk3WUdYV3R0TzZ3NFZiRHdNclVfVG9rZW46VTl5S2JnS2Jpb0xHS254eXJZUWNveG1ObktkXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/363cf81edebe41218c5e1fc131fb166b.png)
 
 - Then use ` arecord -l `  to list all recording devices. As you can see, our USB sound card device 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MTc1MjQwYWUyMTNiMGQ3YWFhMTFlNGZmZGJjNmY5MWVfUTQyNlRwTVpYZkZuWldFUjJ3UXF4RzVaV0ZsTDFXeWxfVG9rZW46WDBEV2JRaURIb3BvRkt4aGhMVGNQZlplbnBjXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/1d79e43c504a4a79876158ad2807a639.png)
 
 - Using `aplay -l` can list all playback devices
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDE3N2QzYjg4MmRhYmY1MDg5MjBiZDYwNGYwZTQzYjVfbmVmOHN4N05EbkllcnlTcDd4V0ljSW9qT3Z4OWphT29fVG9rZW46SEVkVGJBNE41bzZqSnJ4M2xXb2NBUkVFblZkXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/990646c1a46f49cfb71d13a61c146b1f.png)
 
 #### 2. Using USB Sound Card
 
 `arecord -l`, for example, here UACDemoV1.0 is shown, which is our sound card, card 0; device 0, and in the command, modify it to plughw:0,0 to specify this recording device
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTk3NDY4OGVjYTk3NmEwYjcwMDk5ZTFjMDZkZTZjMDNfcHRXVDBBTzhpSWpETzFwR2ZMSUNkVXJiUURReGlWUFJfVG9rZW46TjZvVWIyUkQ5b0t5WDd4OTVIemN5bGdpbnpmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/f27f828bcc734d30b7300a185eb01ea6.png)
 
 Execute the built-in Linux recording command to record a 5-second sound for testing
 
@@ -71,11 +71,11 @@ Among them `plughw:0,0` represents`card 0, device 0`, which is our USB sound car
 
 If the sound is too low, enter the command ` alsamixer ` , to adjust the volume, press ` F6 `, select the USB sound card, 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjdmMTg5ZWRiMmMxYWNjZWMyMjg3Mzk1MzI3MmRkNjVfNDNCd0R5bjJTSTc1bVhiSm1FY3BWVWZCM2tnemhHWVJfVG9rZW46TUR6Q2JRZ05zb2hiT0p4cEE0V2NtQ2hzblpmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/ff0d86433f3844f28d65f1ca69de5354.png)
 
 Then press ` F5 `, display both recording and playback devices, we increase the recording volume by pressing the up key, PCM is for playback, and CAPTURE MIC is for recording 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=OWIyNDM5ZWFlZGMyYmZhMDc0ZmZhOWY4YTViYjEwNDFfYVhrS2NhN1gydWZGVG80UkljcWFBYTg5NFpBM3U5aU9fVG9rZW46TWRGOWJsTjVlb2xiWVh4UWo5M2NuQ0FkblhZXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/f6f944f32ac54d6d870c02b56235260e.png)
 
 Then use ` aplay ` command to play 
 
@@ -93,13 +93,13 @@ Parameter descriptions are as follows:
 
 ### View PulseAudio Visualization Window
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=Yzg1ZjNiNjVkMWVkNTJkMGE5ZDhiNTliZGI0MTUwYzhfaTdrUGlHeVdPQjAxdm5pVVZxcXpjeGtldGc4NFpTUm5fVG9rZW46S0dWV2I2RXRIb2dhYTV4eWlRQWN3YklRbm9lXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/e0c4151c8d9d4c609bbcae5c06c50dd8.png)
 
 View via PulseAudio, [ command line ](https://so.csdn.net/so/search?q=命令行&spm=1001.2101.3001.7020) method 
 
 `pactl list sources short`            # Lists all available audio sources in the current PulseAudio audio server
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=M2M4NDI0ZTQ5ZjYwNmVhNmM5ODYzNTIxMzQ5N2MzMWJfQ3BiUlJTVFEyTzJKSm9aeTVhQ0M4eGZxR2RKcmxqZEtfVG9rZW46VkhsUGJQQ25EbzFNVUZ4WWxnZGNPakZablFnXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/df27d5b11ec340c395f27e13020a7969.png)
 
 > 49 represents the source index
 >
@@ -125,7 +125,7 @@ Search for code examples on your own, such as searching for “[Python calling U
 
 1. Device Occupancy Issue
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTg2MTZkMjY0MTBkYTM0OWZmYzQwYWQ1NjIyN2Y4MjdfVHpuODcyQnQ5RU16bWxaeUhGSVBLMzlZYW1KZEI2MkNfVG9rZW46SVd0TmJEQW9pb1R0cDB4bVNuM2NYTlFNbkFWXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/99493a8905724429b6bff2e6cdd8acd5.png) 
 
 Close the settings page and re-run the command
 
@@ -139,11 +139,11 @@ sudo lsof /dev/snd/*
 
 Before plugging in the sound card 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=NjczNmQxN2JkMDU1YzgyY2U4YzZiMzRlNGRlOTdmZTFfeFI0amNXR0NSZ1pjdnl6bmpleVRHMmRObWdVTmM5VW5fVG9rZW46RllMTmJnZzlVb09qQTJ4U0hIYmM2dldqbmNlXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![**\[img\]**](https://i-blog.csdnimg.cn/direct/10a2294f3f6e4a1a827b3841d3a3b7f8.png)  
 
 After plugging in the sound card 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MzUzZjMzYmJmYWM1ZjU3NTE0OGU5NmViZmRjMzVmMzRfMTJWbndKQUNkdWdHRWFPa01IMEUzWEZpczNNb3NsWERfVG9rZW46VU9zY2JBY0Ywb1VTMnN4dnFPbWNQVWFKbndmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/10e035846d404e5baa825155f2c95f79.png)   
 
 Kill the process ` kill -9 PID ` , where PID is the PID that appears after plugging in the sound card, and in the screenshot it is 33739 
 
@@ -241,11 +241,11 @@ Among them `plughw:0,0` represents`card 0, device 0`, which is our USB sound car
 
 If the sound is too low, enter the command ` alsamixer ` , to adjust the volume, press ` F6 `, select the USB sound card, 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=YWFiNGRkY2ZmODg4YWZjMmNkNDgzYjc2NzBmMzJlODVfV3F0MWRQcDMwNDZDSFIzc3pzZFNpdVBIWDJMd1FDdktfVG9rZW46Rkc1WWJhUnNKb0E1T3p4Uk9vNGNFbU40bnZlXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/ed85ef64e9db449a8384e3dc35393785.png)
 
 Then press ` F5 `, display both recording and playback devices, we increase the recording volume by pressing the up key, PCM is for playback, and CAPTURE MIC is for recording 
 
-![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=YWU4MDA4OWM3MmE1YTdiMTAzODE4YjVjNWNkZmY4YzNfY2ZidFBLb2RIcXljb1o3UDQxUmVlQk40RmFGRmRZWlRfVG9rZW46QmJScGJlOTRFb2FGbW54V1pscGM0M1JXbktoXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+![\[img\]](https://i-blog.csdnimg.cn/direct/02c7e5349f814c5a9b498df7cc3df25e.png)
 
 Then use ` aplay ` command to play 
 
