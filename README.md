@@ -37,7 +37,7 @@ speaker-test -c 2 -D plughw:X,0
 3. 然后使用 arecord -l 可以列出所有录音设备，可以看到，我们的USB声卡设备
 ![\[图片\]](https://i-blog.csdnimg.cn/direct/1d79e43c504a4a79876158ad2807a639.png)
 
-4. 使用 aplay -l 可以列出所有播放设备
+4. 使用 aplay -l 可以列出所有播放设备                                         
 ![\[图片\]](https://i-blog.csdnimg.cn/direct/990646c1a46f49cfb71d13a61c146b1f.png)
 
 **二、USB声卡使用**
@@ -97,8 +97,8 @@ aplay -D plughw:0,0 -f S16_LE -r 16000 -c 1 test.wav
 ## **问题汇总**
 
 **Jetson**
-1. 设备被占用问题
-![\[图片\]](https://i-blog.csdnimg.cn/direct/99493a8905724429b6bff2e6cdd8acd5.png)
+1. 设备被占用问题                                                                            
+![\[图片\]](https://i-blog.csdnimg.cn/direct/99493a8905724429b6bff2e6cdd8acd5.png)                                        
 关闭设置页面，重新运行命令
 若还不行，重新插拔或者重新启动
 
@@ -108,10 +108,10 @@ aplay -D plughw:0,0 -f S16_LE -r 16000 -c 1 test.wav
 sudo lsof /dev/snd/*
 ```
 
-插上声卡前
-![**\[图片\]**](https://i-blog.csdnimg.cn/direct/10a2294f3f6e4a1a827b3841d3a3b7f8.png)
-插上声卡后
-![\[图片\]](https://i-blog.csdnimg.cn/direct/10e035846d404e5baa825155f2c95f79.png)
+插上声卡前                                                                                              
+![**\[图片\]**](https://i-blog.csdnimg.cn/direct/10a2294f3f6e4a1a827b3841d3a3b7f8.png)                                                      
+插上声卡后                                                                                                                                         
+![\[图片\]](https://i-blog.csdnimg.cn/direct/10e035846d404e5baa825155f2c95f79.png)                                                                              
 杀死进程 `kill -9 PID` ，PID为插上声卡后出现的PID，截图里是33739
 然后重新录音、播放
 
