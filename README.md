@@ -1,162 +1,211 @@
-# USB-Driverless-Sound-Card-Tutorial
+# USB Driverless Sound Card Tutorial
 
-## USB免驱声卡教程
+## Visual Testing Software (Windows)
 
-## **可视化测试软件（Windows）**
-命令汇总（可跳过）
-- 更新系统并安装工具：
-  - 执行：`sudo apt update && sudo apt full-upgrade`
-  - 安装 ALSA：`sudo apt install alsa-base alsa-utils`
-- 识别硬件：
-  - 列出音频设备：`aplay -l`
-  - 查看 PCI/USB 音频设备：`lspci | grep -i audio、lsusb`
-- 基础配置与验证：
-  - 运行配置向导：`sudo alsaconf`（若可用）
-  - 调节音量：`alsamixer`（按 M 取消静音，方向键调音量，ESC 退出）
-  - 保存设置：`sudo alsactl store`
-  - 播放测试：测试音频输出（确保扬声器 / 耳机已连接）：
+[audio_tools.7z](https://juxitech.feishu.cn/wiki/NThUwAgW5iLyB3kEWzOcyO35nvW)
 
+**Command Summary (Optional)**
 
-```dart
-# 播放测试音，-D 指定 USB 声卡设备（X 为 aplay -l 显示的 card 编号）
+- Update the system and install tools:
+  - Execute：`sudo apt update && sudo apt full-upgrade`
+  - Install ALSA:`sudo apt install alsa-base alsa-utils`
+- Identified Hardware:
+  - List audio devices:`aplay -l`
+  - Check PCI/USB audio devices:`lspci | grep -i audio`, `lsusb`
+- Basic Configuration and Verification: 
+  - Run the configuration wizard:`sudo alsaconf`(if available)
+  - Adjust volume:`alsamixer` (Press **M** to unmute, use arrow keys to adjust volume, and ESC to exit)
+  - Save settings:`sudo alsactl store`
+  - Playback Test: Test audio output (ensure speakers/headphones are connected):
+  - ```Bash
+    # Play test tone, -D specifies the USB sound card device (X is the card number displayed by aplay -l)
+    speaker-test -c 2 -D plughw:X,0
+    ```
 
-speaker-test -c 2 -D plughw:X,0
-```
+  - Restart the audio service:`sudo systemctl restart alsa`(Some environments may require a system restart:`sudo reboot`)
 
-  - 重启音频服务：`sudo systemctl restart alsa`（部分环境可能需要重启系统：`sudo reboot`）
+## Jetson Series Main Controller & Ubuntu System & Raspberry Pi
 
-## **Jetson系列主控&Ubuntu系统&树莓派**
-**命令行调试**
-**一、USB声卡接入**
-1. 在插入USB声卡之前，我们使用 lsusb 命令查看一下USB设备：
-![\[图片\]](https://i-blog.csdnimg.cn/direct/8d75a3264bf049e88810af54b82dcc0a.png)
+### Command-line debugging
 
-2. 然后把USB声卡插上，再使用 lsusb 查看一下，可以看到，多出来的那个就是USB声卡：
-![\[图片\]](https://i-blog.csdnimg.cn/direct/363cf81edebe41218c5e1fc131fb166b.png)
+#### 1. USB Sound Card Connection
 
-3. 然后使用 arecord -l 可以列出所有录音设备，可以看到，我们的USB声卡设备
-![\[图片\]](https://i-blog.csdnimg.cn/direct/1d79e43c504a4a79876158ad2807a639.png)
+- Before inserting the USB sound card, we use the `lsusb` command to check the USB devices:
 
-4. 使用 aplay -l 可以列出所有播放设备                                         
-![\[图片\]](https://i-blog.csdnimg.cn/direct/990646c1a46f49cfb71d13a61c146b1f.png)
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI1NWFiNGRhZTRkZmIwZjVkZmI5YzNiOTQwZTJlNmNfTVd0RE5xMm95T296ZUhxQTZHVXFsR3N4YWRCaDg3a0NfVG9rZW46SVpYdGJGdTIxb0FBZEt4cHJ3R2NRZ00zbnhjXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-**二、USB声卡使用**
-`arecord -l`，例如这里显示UACDemoV1.0即是我们的声卡，`card 0；device 0`，在命令中修改为plughw:0,0指定该录音设备
-[图片]
-接执行Linux自带的录音命令，录制一段5秒的声音进行测试
+- Then plug in the USB sound card, and use `lsusb`  to check. You can see that the extra one is the USB sound card: 
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MDI4MDQ2ZWIzYTFjYzNiOTNhOWQ2MDcwYjc1NDE1YmVfN2kySEhLMlVKc1g5SDk3WUdYV3R0TzZ3NFZiRHdNclVfVG9rZW46VTl5S2JnS2Jpb0xHS254eXJZUWNveG1ObktkXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+- Then use ` arecord -l `  to list all recording devices. As you can see, our USB sound card device 
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MTc1MjQwYWUyMTNiMGQ3YWFhMTFlNGZmZGJjNmY5MWVfUTQyNlRwTVpYZkZuWldFUjJ3UXF4RzVaV0ZsTDFXeWxfVG9rZW46WDBEV2JRaURIb3BvRkt4aGhMVGNQZlplbnBjXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+- Using `aplay -l` can list all playback devices
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZDE3N2QzYjg4MmRhYmY1MDg5MjBiZDYwNGYwZTQzYjVfbmVmOHN4N05EbkllcnlTcDd4V0ljSW9qT3Z4OWphT29fVG9rZW46SEVkVGJBNE41bzZqSnJ4M2xXb2NBUkVFblZkXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+#### 2. Using USB Sound Card
+
+`arecord -l`, for example, here UACDemoV1.0 is shown, which is our sound card, card 0; device 0, and in the command, modify it to plughw:0,0 to specify this recording device
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTk3NDY4OGVjYTk3NmEwYjcwMDk5ZTFjMDZkZTZjMDNfcHRXVDBBTzhpSWpETzFwR2ZMSUNkVXJiUURReGlWUFJfVG9rZW46TjZvVWIyUkQ5b0t5WDd4OTVIemN5bGdpbnpmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+Execute the built-in Linux recording command to record a 5-second sound for testing
 
 ```
 arecord -D plughw:0,0 -f S16_LE -r 16000 -d 5 -t wav test.wav
 ```
 
-其中 `plughw:0,0` 表示`card 0` , `device 0`，即我们的USB声卡，需根据`arecord -l` 找到自身设备号进行修改，如果你的UACDemoV1.0即是我们的声卡，显示`card 1`；`device 1`，就需要将命令中的`plughw:0,0`改为`plughw:1,1`。 plughw参数提供了自动的格式转换，可以在不同的数据格式和硬件之间进行桥接。arecord 其他的参数如下：
-|指令  | 含义 |  本指令含义
-|:- | :-: | - |
-| -D | 选择设备名称 |使用外接USB声卡“plughw:1.0”
-|-f|录音格式|S16_LE代表有符号16位小端序
-|-r|采样率|16000是16KHz采样
-|-d|录音时长|录音5秒
-|-t|录音格式|wav格式
-|test.wav|文件名，可以包含路径|文件名字叫test.wav
+Among them `plughw:0,0` represents`card 0, device 0`, which is our USB sound card. It needs to be modified according to the device number found by`arecord -l` . If your UACDemoV1.0 is our sound card and it shows card 1; device 1, you need to change`plughw:0,0`in the command to`plughw:1,1`. `plughw`parameter provides automatic format conversion and can bridge between different data formats and hardware. Other parameters of arecord are as follows:
 
-如果声音过小，输入命令 `alsamixer` ，来对音量进行调整，按下F6，选择USB声卡，
-![\[图片\]](https://i-blog.csdnimg.cn/direct/ff0d86433f3844f28d65f1ca69de5354.png)
+| Instruction | Meaning                             | Meaning of this instruction                   |
+| ----------- | ----------------------------------- | --------------------------------------------- |
+| -D          | Select device name                  | Use the external USB sound card "plughw:1.0"  |
+| -f          | Recording Format                    | S16_LE represents signed 16-bit little-endian |
+| -r          | Sampling Rate                       | 16000 is a 16KHz sampling rate                |
+| -d          | Recording Duration                  | Record for 5 seconds                          |
+| -t          | Recording Format                    | wav format                                    |
+| test.wav    | File name, which can include a path | The file name is test.wav                     |
 
-然后按下F5，将录音和播音设备都展示出来，我们将录音的音量按上键调高，PCM是播放，CAPTURE MIC是录音
-![\[图片\]](https://i-blog.csdnimg.cn/direct/f6f944f32ac54d6d870c02b56235260e.png)
+If the sound is too low, enter the command ` alsamixer ` , to adjust the volume, press ` F6 `, select the USB sound card, 
 
-然后使用`aplay`命令来播放
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjdmMTg5ZWRiMmMxYWNjZWMyMjg3Mzk1MzI3MmRkNjVfNDNCd0R5bjJTSTc1bVhiSm1FY3BWVWZCM2tnemhHWVJfVG9rZW46TUR6Q2JRZ05zb2hiT0p4cEE0V2NtQ2hzblpmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-```bash
+Then press ` F5 `, display both recording and playback devices, we increase the recording volume by pressing the up key, PCM is for playback, and CAPTURE MIC is for recording 
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=OWIyNDM5ZWFlZGMyYmZhMDc0ZmZhOWY4YTViYjEwNDFfYVhrS2NhN1gydWZGVG80UkljcWFBYTg5NFpBM3U5aU9fVG9rZW46TWRGOWJsTjVlb2xiWVh4UWo5M2NuQ0FkblhZXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+Then use ` aplay ` command to play 
+
+```
 aplay -D plughw:0,0 -f S16_LE -r 16000 -c 1 test.wav
 ```
 
-参数说明如下：
-- -D plughw:0,0：指定录音设备。plughw:0,0 表示使用第一个声卡的第一个设备。
-- -f S16_LE：设置音频文件格式。S16_LE 表示 16 位小端格式（Signed 16-bit Little Endian），一种常用的音频数据格式，“小端”指数据的低位字节存储在内存的低地址端。
-- -r 16000：设置采样率。
-- -c 1：设置声道数。
-- -d 5：设置录音时长/秒。
+Parameter descriptions are as follows:
 
-## **PulseAudio 可视化窗口查看**
+- -D plughw:0,0: Specifies the recording device. plughw:0,0 indicates using the first device of the first sound card.
+- -f S16_LE: Sets the audio file format. S16_LE represents 16-bit little endian format (Signed 16-bit Little Endian), a commonly used audio data format, where "little endian" means that the low-order ByteDance of the data is stored at the low address end of memory.
+- -r 16000: Set the sampling rate.
+- -c 1: Set the number of channels.
+- -d 5: Set the recording duration/seconds.
 
-![\[图片\]](https://i-blog.csdnimg.cn/direct/e0c4151c8d9d4c609bbcae5c06c50dd8.png)
+### View PulseAudio Visualization Window
 
-通过PulseAudio，命令行方式查看
-`pactl list sources short`            #  列出当前 PulseAudio 音频服务器中所有可用的音频源
-![\[图片\]](https://i-blog.csdnimg.cn/direct/df27d5b11ec340c395f27e13020a7969.png)
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=Yzg1ZjNiNjVkMWVkNTJkMGE5ZDhiNTliZGI0MTUwYzhfaTdrUGlHeVdPQjAxdm5pVVZxcXpjeGtldGc4NFpTUm5fVG9rZW46S0dWV2I2RXRIb2dhYTV4eWlRQWN3YklRbm9lXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-> 49 代表源索引 
-> Alsa _input.usb 表示这是一个USB输入设备，表示是一个麦克风 
-> s16le 表示 16 位小端（Signed 16-bit Little Endian）的音频采样格式。 
-> 1ch 表示单声道。 
-> 48000Hz 是采样率，表示每秒采样 48000 次
-> SUSPENDED 代表当前麦克风是挂起的 
-> RUNNING 代表麦克风被占用中
+View via PulseAudio, [ command line ](https://so.csdn.net/so/search?q=命令行&spm=1001.2101.3001.7020) method 
 
-## **问题汇总**
+`pactl list sources short`            # Lists all available audio sources in the current PulseAudio audio server
 
-**Jetson**
-1. 设备被占用问题                                                                            
-![\[图片\]](https://i-blog.csdnimg.cn/direct/99493a8905724429b6bff2e6cdd8acd5.png)                                        
-关闭设置页面，重新运行命令
-若还不行，重新插拔或者重新启动
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=M2M4NDI0ZTQ5ZjYwNmVhNmM5ODYzNTIxMzQ5N2MzMWJfQ3BiUlJTVFEyTzJKSm9aeTVhQ0M4eGZxR2RKcmxqZEtfVG9rZW46VkhsUGJQQ25EbzFNVUZ4WWxnZGNPakZablFnXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-查看哪个进程占用音频设备
+> 49 represents the source index
+>
+> Alsa _input.usb indicates that this is a USB input device, representing a microphone
+>
+> s16le represents the 16-bit little endian (Signed 16-bit Little Endian) audio sample format.
+>
+> 1ch represents mono.
+>
+> 48000Hz is the sampling rate, indicating 48000 samples per second
+>
+> SUSPENDED indicates that the current microphone is suspended 
+>
+> RUNNING indicates that the microphone is in use
 
-```bash
+### Python calls USB driverless sound card
+
+Search for code examples on your own, such as searching for “[Python calling USB driverless sound card](https://blog.csdn.net/weixin_44463519/article/details/157463731?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Ctr-3-157463731-blog-105694458.235^v43^pc_blog_bottom_relevance_base9&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~YuanLiJiHua~Ctr-3-157463731-blog-105694458.235^v43^pc_blog_bottom_relevance_base9&utm_relevant_index=4)”
+
+### Problem Summary
+
+#### Jetson
+
+1. Device Occupancy Issue
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTg2MTZkMjY0MTBkYTM0OWZmYzQwYWQ1NjIyN2Y4MjdfVHpuODcyQnQ5RU16bWxaeUhGSVBLMzlZYW1KZEI2MkNfVG9rZW46SVd0TmJEQW9pb1R0cDB4bVNuM2NYTlFNbkFWXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+Close the settings page and re-run the command
+
+If it still doesn't work, try re-plugging or restarting 
+
+Check which process is occupying the audio device 
+
+```
 sudo lsof /dev/snd/*
 ```
 
-插上声卡前                                                                                              
-![**\[图片\]**](https://i-blog.csdnimg.cn/direct/10a2294f3f6e4a1a827b3841d3a3b7f8.png)                                                      
-插上声卡后                                                                                                                                         
-![\[图片\]](https://i-blog.csdnimg.cn/direct/10e035846d404e5baa825155f2c95f79.png)                                                                              
-杀死进程 `kill -9 PID` ，PID为插上声卡后出现的PID，截图里是33739
-然后重新录音、播放
+Before plugging in the sound card 
 
-**树莓派**
-1.噪音较大问题
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=NjczNmQxN2JkMDU1YzgyY2U4YzZiMzRlNGRlOTdmZTFfeFI0amNXR0NSZ1pjdnl6bmpleVRHMmRObWdVTmM5VW5fVG9rZW46RllMTmJnZzlVb09qQTJ4U0hIYmM2dldqbmNlXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-> 先将麦克风音量置于100 
-> 打开终端 
-> sudo vi /boot/config.txt
-> #或者可能在/boot/firmware/config.txt 
-> 在文本最后添加 
-> audio_pwm_mode = 2 
-> ESC输入:wq退出保存 
-> 然后重启 
-> reboot
+After plugging in the sound card 
 
-2.每次重新启动会初始化音量设置
-重新设置好音量后，
-需要保存当前音量配置到系统默认配置文件
-执行以下命令将当前设置持久化
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=MzUzZjMzYmJmYWM1ZjU3NTE0OGU5NmViZmRjMzVmMzRfMTJWbndKQUNkdWdHRWFPa01IMEUzWEZpczNNb3NsWERfVG9rZW46VU9zY2JBY0Ywb1VTMnN4dnFPbWNQVWFKbndmXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-```bash
+Kill the process ` kill -9 PID ` , where PID is the PID that appears after plugging in the sound card, and in the screenshot it is 33739 
+
+Then re-record and play 
+
+#### Raspberry Pi 
+
+1. Problem of relatively high noise
+
+First, set the microphone volume to 100 Open the terminal 
+
+```Bash
+$ sudo vi /boot/config.txt    #Or it may be in /boot/firmware/config.txt
+```
+
+Add at the end of the text
+
+```Bash
+audio_pwm_mode = 2
+```
+
+ESC input: wq to exit and save Then restart
+
+```Bash
+$ reboot
+```
+
+2. Each restart will initialize the volume settings.
+
+After resetting the volume, 
+
+Needs to save the current volume configuration to the system default configuration file
+
+Execute the following command to persist the current settings
+
+```Python
 sudo chmod 664 /var/lib/alsa/asound.state
 sudo alsactl store
 ```
 
-**Ubuntu虚拟机**
-1. 录音时有噪音杂音
-解决办法：USB控制器兼容性改为3.0或3.1
+#### Ubuntu Virtual Machine
 
+1. There is noise and interference during recording
 
-**RDK x3&x5**
-查看设备编号
-检查声卡是否存在，检查设备编号。
-通过 `cat /proc/asound/cards` 命令确认声卡是否注册
- 
+Solution: Change the USB controller compatibility to 3.0 or 3.1 
 
-```bash
-0 [duplexaudio    ]: simple-card - duplex-audio
+#### RDK x3&x5
+
+##### View device number
+
+Check if the sound card exists and verify the device number. 
+
+Confirm whether the sound card is registered through the `cat /proc/asound/cards` command
+
+```Shell
+ 0 [duplexaudio    ]: simple-card - duplex-audio
                       duplex-audio
 ```
 
-通过 `cat /proc/asound/devices` 命令确认逻辑设备
+Confirm the logical device via the `cat /proc/asound/devices` command
 
-```bash
+```Shell
 root@ubuntu:~# cat /proc/asound/devices
   2: [ 0- 0]: digital audio playback
   3: [ 0- 0]: digital audio capture
@@ -164,156 +213,165 @@ root@ubuntu:~# cat /proc/asound/devices
  33:        : timer
 ```
 
-通过 `ls /dev/snd/` 命令检查用户空间的实际设备文件
+Check the actual device files in user space via the `ls /dev/snd/` command
 
-```bash
+```Shell
 root@ubuntu:~# ls /dev/snd/
-by-path/   controlC0  pcmC0D0c   pcmC0D0p   timer  
+by-path/   controlC0  pcmC0D0c   pcmC0D0p   timer    
 ```
 
-  
-通过上述查询，可以确认，声卡0对应的是板载声卡；设备也是存在的, 且设备号为 0-0 , 实际我们操作的设备应该是 `pcmC0D0p` 和 `pcmC0D0c`。
-录制一段5秒的声音进行测试
+Through the above query, it can be confirmed that sound card 0 corresponds to the onboard sound card; the device also exists, and its device number is `0-0`. In fact, the devices we operate should be `pcmC0D0p` and `pcmC0D0c`.
 
-```bash
+### Record a 5-second sound for testing
+
+```
 arecord -D plughw:0,0 -f S16_LE -r 16000 -d 5 -t wav test.wav
 ```
 
-其中 `plughw:0,0` 表示`card 0 , device 0`，即我们的USB声卡，plughw参数提供了自动的格式转换，可以在不同的数据格式和硬件之间进行桥接。arecord 其他的参数如下：
-|指令  | 含义 |  本指令含义
-|:- | :-: | - |
-| -D | 选择设备名称 |使用外接USB声卡“plughw:1.0”
-|-f|录音格式|S16_LE代表有符号16位小端序
-|-r|采样率|16000是16KHz采样
-|-d|录音时长|录音5秒
-|-t|录音格式|wav格式
-|test.wav|文件名，可以包含路径|文件名字叫test.wav
+Among them `plughw:0,0` represents`card 0, device 0`, which is our USB sound card,`the plughw`parameter provides automatic format conversion and can bridge between different data formats and hardware. Other parameters of arecord are as follows:
 
-如果声音过小，输入命令 `alsamixer` ，来对音量进行调整，按下F6，选择USB声卡，
-![\[图片\]](https://i-blog.csdnimg.cn/direct/ed85ef64e9db449a8384e3dc35393785.png)
+| Instruction | Meaning                             | Meaning of this instruction                   |
+| ----------- | ----------------------------------- | --------------------------------------------- |
+| -D          | Select device name                  | Use external USB sound card "plughw:1.0"      |
+| -f          | Recording Format                    | S16_LE represents signed 16-bit little-endian |
+| -r          | Sampling Rate                       | 16000 is a 16KHz sampling rate                |
+| -d          | Recording Duration                  | Record for 5 seconds                          |
+| -t          | Recording Format                    | wav format                                    |
+| test.wav    | File name, which can include a path | The file name is test.wav                     |
 
-然后按下F5，将录音和播音设备都展示出来，我们将录音的音量按上键调高，PCM是播放，CAPTURE MIC是录音
-![\[图片\]](https://i-blog.csdnimg.cn/direct/02c7e5349f814c5a9b498df7cc3df25e.png)
+If the sound is too low, enter the command ` alsamixer ` , to adjust the volume, press ` F6 `, select the USB sound card, 
 
-然后使用aplay命令来播放
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=YWFiNGRkY2ZmODg4YWZjMmNkNDgzYjc2NzBmMzJlODVfV3F0MWRQcDMwNDZDSFIzc3pzZFNpdVBIWDJMd1FDdktfVG9rZW46Rkc1WWJhUnNKb0E1T3p4Uk9vNGNFbU40bnZlXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
 
-```bash
+Then press ` F5 `, display both recording and playback devices, we increase the recording volume by pressing the up key, PCM is for playback, and CAPTURE MIC is for recording 
+
+![img](https://juxitech.feishu.cn/space/api/box/stream/download/asynccode/?code=YWU4MDA4OWM3MmE1YTdiMTAzODE4YjVjNWNkZmY4YzNfY2ZidFBLb2RIcXljb1o3UDQxUmVlQk40RmFGRmRZWlRfVG9rZW46QmJScGJlOTRFb2FGbW54V1pscGM0M1JXbktoXzE3Nzg2NDE1MjQ6MTc3ODY0NTEyNF9WNA)
+
+Then use ` aplay ` command to play 
+
+```
 aplay -D plughw:0,0 -f S16_LE -r 16000 -c 1 test.wav
 ```
-参数说明如下：
-- -D plughw:0,0：指定录音设备。plughw:0,0 表示使用第一个声卡的第一个设备。
-- -f S16_LE：设置音频文件格式。S16_LE 表示 16 位小端格式（Signed 16-bit Little Endian），一种常用的音频数据格式，“小端”指数据的低位字节存储在内存的低地址端。
-- -r 16000：设置采样率。
-- -c 1：设置声道数。
-- -d 5：设置录音时长/秒。
 
+Parameter descriptions are as follows:
 
+- -D plughw:0,0: Specifies the recording device. plughw:0,0 indicates using the first device of the first sound card.
+- -f S16_LE: Sets the audio file format. S16_LE represents 16-bit little endian format (Signed 16-bit Little Endian), a commonly used audio data format, where "little endian" means that the low-order ByteDance of the data is stored at the low address end of memory.
+- -r 16000: Set the sampling rate.
+- -c 1: Set the number of channels.
+- -d 5: Set the recording duration/seconds.
 
-## **检查最基本的音频驱动**
+## Frequently Asked Questions 
 
-能否使用 USB 免驱声卡，核心取决于内核
-- 是否启用了 USB Audio Class 支持‌（即 `CONFIG_USB_AUDIO`）；
-- 是否加载了相应的内核模块（如 `snd-usb-audio`）
+### How does the RDK board distinguish between USB sound cards and onboard sound cards?
 
-只要内核支持，再补装基础音频工具，就能正常使用；若内核被裁剪，则需要重新编译内核启用驱动。
-**步骤 1： 检查内核是否支持 snd_usb_audio**
+### How can the audio daughterboard of the RDK X3 series coexist and be used simultaneously with a USB sound card?
 
-```bash
-方法1： 检查是否已加载驱动模块
+### How does RDKS100 support the use of audio functions through a graphical interface?
 
+Refer to [RDK Multimedia Processing and Applications](https://developer.d-robotics.cc/rdk_doc/FAQ/multimedia#usb-声卡和板载声卡如何区分使用)
+
+## Check the most basic audio driver
+
+Whether a USB driverless sound card can be used  **ultimately depends on the kernel** 
+
+- Whether USB Audio Class support (i.e., `CONFIG_USB_AUDIO`) is enabled;
+- Is the corresponding kernel module (such as `snd-usb-audio`) loaded?
+
+As long as the kernel supports it, simply install the basic audio tools to use it normally; if the kernel has been trimmed, you need to recompile the kernel to enable the driver. 
+
+### **Step 1: Check if the kernel supports snd_usb_audio** 
+
+```Plain
+# Method 1: Check whether the driver module has been loaded
 lsmod | grep snd_usb_audio
 
-方法2： 检查内核是否内置该模块（即使未加载）
-
-modinfo snd_usb_audio  # 有输出=内核支持；无输出=内核未编译该模块
+# Method 2: Check if the module is built into the kernel (even if not loaded)
+modinfo snd_usb_audio  # Output exists = Kernel support; No output = The module is not compiled into the kernel
 ```
 
-若 `modinfo` 无输出：说明系统内核裁剪了该驱动，需重新编译内核，在 `.config` 中开启：
+**If** **` modinfo `** **has no output** : It indicates that the system kernel has trimmed this driver, and the kernel needs to be recompiled. Enable it in `.config `: 
 
-```bash
-CONFIG_SND_USB_AUDIO=m  # 编译为模块，或=y 内置到内核
+```Plain
+CONFIG_SND_USB_AUDIO=m  # Compile as a module, or =y to build into the kernel
 CONFIG_SND_USB_UA101=y
 CONFIG_SND_USB_CAIAQ=y
 ```
 
-若 `modinfo` 有输出：直接加载模块：
+**If** **` modinfo `** **has output** : directly load the module: 
 
-```bash
+```Bash
 sudo modprobe snd_usb_audio
 ```
 
-**步骤 2： 安装基础音频工具（精简版默认无）**
-精简版系统通常没有 `alsa-utils` 这类工具，需手动安装：
+### Step 2: Install basic audio tools (not included by default in the Lite version) 
 
-```bash
-Ubuntu/Debian 系统
+The stripped-down system usually does not have ` alsa-utils ` and other such tools, which need to be manually installed: 
 
+```Bash
+# Ubuntu/Debian
 sudo apt update && sudo apt install -y alsa-utils usbutils
 
-无网络环境： 下载 alsa-utils 离线包，用 dpkg -i 安装
+# Offline environment: Download the alsa-utils offline package and install it with dpkg -i
 ```
 
-**步骤 3： 验证 USB 声卡识别与功能**
-1.插入 USB 声卡，执行命令确认设备识别：
+### Step 3: Verify USB Sound Card Recognition and Functionality
 
-```bash
-查看 USB 设备枚举
+1. Insert the USB sound card and execute the command to confirm device recognition:
 
+```Bash
+# View USB device enumeration
 lsusb | grep -i audio
 
-查看音频设备列表
-
+# View the audio device list
 aplay -l
 ```
 
-输出中出现 `USB Audio` 相关的 `card X` 条目，说明识别成功。
-2.测试音频输出（确保扬声器 / 耳机已连接）：
+The appearance of ` USB Audio ` related ` card X ` entries in the output indicates successful recognition. 
 
-```dart
-播放测试音，-D 指定 USB 声卡设备（X 为 aplay -l 显示的 card 编号）
+2. Test audio output (ensure speakers/headphones are connected):
 
+```Bash
+# Play test tone, -D specifies the USB sound card device (X is the card number displayed by aplay -l)
 speaker-test -c 2 -D plughw:X,0
 ```
 
-**步骤 4： （可选）安装音频服务（桌面 / 后台播放需求）**
-若需要在后台播放音频、或搭配桌面环境使用，精简版需额外安装音频服务：
+### Step 4: (Optional) Install audio service (for desktop/background playback requirements) 
 
-```dart
-轻量级服务（推荐，无桌面也能用）
+If you need to play audio in the background or use it with a desktop environment, the Lite version requires additional installation of audio services: 
 
+```Bash
+# Lightweight Service (Recommended, usable without a desktop environment)
 sudo apt install -y pulseaudio
 
-或 PipeWire（Ubuntu 22.04+ 推荐）
-
+# or PipeWire (Recommended for Ubuntu 22.04 and above)
 sudo apt install -y pipewire pipewire-alsa
 ```
 
-**精简版系统的常见坑点及解决**
-**1.权限不足，普通用户无法访问声卡**
-解决：将用户加入 audio组，重启后生效：
+## Common Pitfalls and Solutions of the Lite Version System
 
-```dart
+**1. Insufficient permissions, ordinary users cannot access the sound card**
+
+Solution: Add the user to the ` audio ` group, which will take effect after restart: 
+
+```Bash
 sudo usermod -aG audio $USER
 ```
 
-**2.无声音，但设备识别正常**
-解决：用 alsamixer调大音量、解除静音（按 M 键取消静音）：
+2. **No sound, but device recognition is normal** 
 
-```dart
-alsamixer -c X  # X 为 USB 声卡的 card 编号
+Solution: Use ` alsamixer ` to increase the volume and unmute (press the ` M ` key to unmute): 
+
+```Bash
+alsamixer -c X  # X refers to the card number of the USB sound card
 ```
 
-**3.内核版本过低，不支持新型 USB 声卡时，分以下两种情况**
-```dart
-# Ubuntu/Debian
+3. **When the kernel version is too low and does not support the new USB sound card, the following two scenarios apply** 
+
+```Bash
 sudo apt install -y linux-generic && sudo reboot
-```
-```dart
-# Linux系统
-sudo modprobe snd-hda-intel model=generic #（不同机型可尝试不同 model 值）
-
-创建声卡驱动配置文件
-
+sudo modprobe snd-hda-intel model=generic #(Different models can try different model values)
+# Create the sound card driver configuration file
 sudo echo "options snd-hda-intel model=generic" > /etc/modprobe.d/sound.conf
 sudo reboot
 ```
