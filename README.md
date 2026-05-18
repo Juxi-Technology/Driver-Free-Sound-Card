@@ -1,4 +1,4 @@
-# USB Driverless Sound Card
+# Driver-Free-Sound-Card
 
 ## Visual Testing Software (Windows)
 
