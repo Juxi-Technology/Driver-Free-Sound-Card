@@ -1,4 +1,4 @@
-# USB Driverless Sound Card Tutorial
+# USB Driverless Sound Card
 
 ## Visual Testing Software (Windows)
 
