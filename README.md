@@ -375,3 +375,9 @@ sudo modprobe snd-hda-intel model=generic #(Different models can try different m
 sudo echo "options snd-hda-intel model=generic" > /etc/modprobe.d/sound.conf
 sudo reboot
 ```
+
+---
+
+## License
+
+[MIT](LICENSE) — Copyright (c) 2026 Juxi Technology.
